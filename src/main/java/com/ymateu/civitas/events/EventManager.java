@@ -1,7 +1,8 @@
 package com.ymateu.civitas.events;
 
 import com.ymateu.civitas.engine.GameState;
-import com.ymateu.civitas.events.event.ProtestEvent;
+import com.ymateu.civitas.events.event.defeat.ImpeachmentEvent;
+import com.ymateu.civitas.events.event.society.ProtestEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,8 @@ public class EventManager {
     }
 
     public void registerEvents() {
-        new ProtestEvent();
+        events.add(new ProtestEvent());
+        events.add(new ImpeachmentEvent());
     }
 
     public Event generateEvent(GameState state) {
