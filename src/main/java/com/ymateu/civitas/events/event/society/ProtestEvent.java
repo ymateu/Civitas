@@ -1,4 +1,4 @@
-package com.ymateu.civitas.events.event;
+package com.ymateu.civitas.events.event.society;
 
 import com.ymateu.civitas.engine.GameState;
 import com.ymateu.civitas.events.Event;
