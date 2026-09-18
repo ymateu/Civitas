@@ -2,6 +2,7 @@ package com.ymateu.civitas;
 
 import com.badlogic.gdx.Game;
 import com.ymateu.civitas.UI.*;
+import com.ymateu.civitas.UI.preferences.GamePreferences;
 
 public class CivitasApp extends Game{
 
@@ -10,16 +11,21 @@ public class CivitasApp extends Game{
     private MenuScreen menuScreen;
     private MainScreen mainScreen;
     private ConfirmExitScreen confirmExitScreen;
+    private GamePreferences gamePreferences = new GamePreferences();
 
     public final static int MENU = 0;
     public final static int PREFERENCES = 1;
     public final static int APPLICATION = 2;
     public final static int CONFIRM_EXIT = 3;
 
+    public GamePreferences getPreferences() {
+        return this.gamePreferences;
+    }
 
     @Override
     public void create () {
         loadingScreen = new LoadingScreen(this);
+
         setScreen(loadingScreen);
     }
 
