@@ -32,7 +32,6 @@ public class ConfirmExitScreen implements Screen {
 
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(true);
         stage.addActor(table);
 
         titleLabel = new Label("Confirm Exit", skin);
