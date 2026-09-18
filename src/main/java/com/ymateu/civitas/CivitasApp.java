@@ -1,10 +1,7 @@
 package com.ymateu.civitas;
 
 import com.badlogic.gdx.Game;
-import com.ymateu.civitas.UI.LoadingScreen;
-import com.ymateu.civitas.UI.MainScreen;
-import com.ymateu.civitas.UI.MenuScreen;
-import com.ymateu.civitas.UI.PreferencesScreen;
+import com.ymateu.civitas.UI.*;
 
 public class CivitasApp extends Game{
 
@@ -12,10 +9,12 @@ public class CivitasApp extends Game{
     private PreferencesScreen preferencesScreen;
     private MenuScreen menuScreen;
     private MainScreen mainScreen;
+    private ConfirmExitScreen confirmExitScreen;
 
     public final static int MENU = 0;
     public final static int PREFERENCES = 1;
     public final static int APPLICATION = 2;
+    public final static int CONFIRM_EXIT = 3;
 
 
     @Override
@@ -38,6 +37,9 @@ public class CivitasApp extends Game{
                 if(mainScreen == null) mainScreen = new MainScreen(this);
                 this.setScreen(mainScreen);
                 break;
+            case CONFIRM_EXIT:
+                if(mainScreen == null) confirmExitScreen = new ConfirmExitScreen(this);
+                this.setScreen(confirmExitScreen);
         }
     }
 }
