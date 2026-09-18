@@ -38,6 +38,8 @@ public class PreferencesScreen implements Screen {
         stage.addActor(table);
 
         final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
+        final Slider volumeSlider = new Slider(0f, 1f, 0.1f,false, skin );
+
         final CheckBox musicCheckbox = new CheckBox(null, skin);
         final TextButton backButton = new TextButton("Voltar", skin, "small");
 
@@ -46,6 +48,15 @@ public class PreferencesScreen implements Screen {
             @Override
             public boolean handle(Event event) {
                 app.getPreferences().setMusicVolume( volumeMusicSlider.getValue() );
+                return false;
+            }
+        });
+
+        volumeSlider.setValue( app.getPreferences().getSoundVolume() );
+        volumeSlider.addListener( new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                app.getPreferences().setSoundVolume( volumeSlider.getValue() );
                 return false;
             }
         });
@@ -68,10 +79,10 @@ public class PreferencesScreen implements Screen {
         });
 
 
-        titleLabel = new Label( "Preferences", skin );
-        volumeMusicLabel = new Label( null, skin );
-        volumeSoundLabel = new Label( null, skin );
-        musicOnOffLabel = new Label( null, skin );
+        titleLabel = new Label( "Configurações", skin );
+        volumeMusicLabel = new Label( "Musica", skin );
+        volumeSoundLabel = new Label( "Volume", skin );
+        musicOnOffLabel = new Label( "Desligar a Musica", skin );
 
         table.add(titleLabel);
         table.row();
@@ -82,6 +93,7 @@ public class PreferencesScreen implements Screen {
         table.add(musicCheckbox);
         table.row();
         table.add(volumeSoundLabel);
+        table.add(volumeSlider);
         table.row();
         table.add(backButton);
 
