@@ -31,7 +31,7 @@ public class PreferencesScreen implements Screen {
 
     @Override
     public void show() {
-        Skin skin = new Skin(Gdx.files.internal("skin/comic-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         Table table = new Table();
         table.setFillParent(true);
@@ -39,7 +39,7 @@ public class PreferencesScreen implements Screen {
 
         final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
         final CheckBox musicCheckbox = new CheckBox(null, skin);
-        final TextButton backButton = new TextButton("Voltar", skin);
+        final TextButton backButton = new TextButton("Voltar", skin, "small");
 
         volumeMusicSlider.setValue( app.getPreferences().getMusicVolume() );
         volumeMusicSlider.addListener( new EventListener() {

@@ -28,7 +28,7 @@ public class ConfirmExitScreen implements Screen {
 
     @Override
     public void show() {
-        Skin skin = new Skin(Gdx.files.internal("skin/comic-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         Table table = new Table();
         table.setFillParent(true);

@@ -30,7 +30,7 @@ public class MenuScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        Skin skin = new Skin(Gdx.files.internal("skin/comic-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         TextButton newGame = new TextButton("Novo Jogo", skin);
         TextButton preferences = new TextButton("Configuracoes", skin);
