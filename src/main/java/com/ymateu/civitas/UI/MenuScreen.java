@@ -28,7 +28,6 @@ public class MenuScreen implements Screen {
     public void show() {
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(true);
         stage.addActor(table);
 
         Skin skin = new Skin(Gdx.files.internal("skin/comic-ui.json"));
@@ -71,6 +70,7 @@ public class MenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
@@ -94,6 +94,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
     }
 
 }
