@@ -34,9 +34,9 @@ public class ConfirmExitScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        titleLabel = new Label("Confirm Exit", skin);
+        titleLabel = new Label("Deseja mesmo sair?", skin);
         TextButton exit = new TextButton("Sair", skin);
-        TextButton cancel = new TextButton("Cancel", skin);
+        TextButton cancel = new TextButton("Voltar", skin);
 
         table.add(titleLabel).fillX().uniformX();
         table.row().pad(10,0,10,0);
