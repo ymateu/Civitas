@@ -10,7 +10,7 @@ public class DesktopLauncher {
                 new Lwjgl3ApplicationConfiguration();
 
         config.setTitle("Civitas");
-        config.setWindowedMode(1280, 720);
+        config.setWindowedMode(1200, 600);
         config.setForegroundFPS(60);
 
         new Lwjgl3Application(new CivitasApp(), config);
