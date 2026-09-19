@@ -7,6 +7,11 @@ public class GameState {
     private President president;
     private Society society;
 
+    private int bimonthly;
+    private int year;
+
+    private String name;
+
     public Society getSociety() {
         return society;
     }
@@ -14,9 +19,6 @@ public class GameState {
     public void setSociety(Society society) {
         this.society = society;
     }
-
-    private int bimonthly;
-    private int year;
 
     public President getPresident() {
         return president;
@@ -40,5 +42,13 @@ public class GameState {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

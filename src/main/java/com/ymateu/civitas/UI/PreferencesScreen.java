@@ -2,28 +2,37 @@ package com.ymateu.civitas.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ymateu.civitas.CivitasApp;
-import com.badlogic.gdx.scenes.scene2d.Event;
+import com.ymateu.civitas.UI.manager.UIAssetManager;
 
 public class PreferencesScreen implements Screen {
 
     private CivitasApp app;
     private Stage stage;
+    private UIAssetManager uiAssets;
 
-    private Label titleLabel;
-    private Label volumeMusicLabel;
-    private Label volumeSoundLabel;
-    private Label musicOnOffLabel;
+    private Texture backgroundTexture;
+    private Texture panelTexture;
 
     public PreferencesScreen(CivitasApp civitasApp) {
         app = civitasApp;
+        uiAssets = app.getUIAssets();
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -31,86 +40,269 @@ public class PreferencesScreen implements Screen {
 
     @Override
     public void show() {
-        Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        if (stage.getActors().size > 0) {
+            return;
+        }
 
-        Table table = new Table();
-        table.setFillParent(true);
-        stage.addActor(table);
+        Skin skin = uiAssets.getSkin();
 
-        final Slider volumeMusicSlider = new Slider( 0f, 1f, 0.1f,false, skin );
-        final Slider volumeSlider = new Slider(0f, 1f, 0.1f,false, skin );
+        backgroundTexture = criarTextura(
+                uiAssets.getBackgroundColor()
+        );
 
-        final CheckBox musicCheckbox = new CheckBox(null, skin);
-        final TextButton backButton = new TextButton("Voltar", skin, "small");
+        panelTexture = criarTextura(
+                uiAssets.getPanelColor()
+        );
 
-        volumeMusicSlider.setValue( app.getPreferences().getMusicVolume() );
-        volumeMusicSlider.addListener( new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                app.getPreferences().setMusicVolume( volumeMusicSlider.getValue() );
-                return false;
-            }
-        });
+        Table root = new Table();
+        root.setFillParent(true);
 
-        volumeSlider.setValue( app.getPreferences().getSoundVolume() );
-        volumeSlider.addListener( new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                app.getPreferences().setSoundVolume( volumeSlider.getValue() );
-                return false;
-            }
-        });
+        root.setBackground(
+                new TextureRegionDrawable(
+                        new TextureRegion(backgroundTexture)
+                )
+        );
 
-        musicCheckbox.setChecked( app.getPreferences().isMusicEnabled() );
-        musicCheckbox.addListener( new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                boolean enabled = musicCheckbox.isChecked();
-                app.getPreferences().setMusicEnabled( enabled );
-                return false;
-            }
-        });
+        Table panel = new Table();
 
-        backButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                app.changeScreen(CivitasApp.MENU);
-            }
-        });
+        panel.setBackground(
+                new TextureRegionDrawable(
+                        new TextureRegion(panelTexture)
+                )
+        );
 
+        panel.pad(40);
 
-        titleLabel = new Label( "Configurações", skin );
-        volumeMusicLabel = new Label( "Musica", skin );
-        volumeSoundLabel = new Label( "Volume", skin );
-        musicOnOffLabel = new Label( "Desligar a Musica", skin );
+        Label title = new Label(
+                "Configurações",
+                skin
+        );
 
-        table.add(titleLabel);
-        table.row();
-        table.add(volumeMusicLabel);
-        table.add(volumeMusicSlider);
-        table.row();
-        table.add(musicOnOffLabel);
-        table.add(musicCheckbox);
-        table.row();
-        table.add(volumeSoundLabel);
-        table.add(volumeSlider);
-        table.row();
-        table.add(backButton);
+        title.setFontScale(1.2f);
 
+        Label musicLabel = new Label(
+                "Música",
+                skin
+        );
+
+        musicLabel.setFontScale(0.6f);
+
+        Label soundLabel = new Label(
+                "Volume",
+                skin
+        );
+
+        soundLabel.setFontScale(0.6f);
+
+        Label musicToggleLabel = new Label(
+                "Música ligada",
+                skin
+        );
+
+        musicToggleLabel.setFontScale(0.6f);
+
+        Slider musicSlider = new Slider(
+                0f,
+                1f,
+                0.1f,
+                false,
+                skin
+        );
+
+        Slider soundSlider = new Slider(
+                0f,
+                1f,
+                0.1f,
+                false,
+                skin
+        );
+
+        CheckBox musicCheckbox =
+                new CheckBox("", skin);
+
+        TextButton backButton =
+                new TextButton(
+                        "Voltar",
+                        skin
+                );
+
+        backButton.getLabel()
+                .setFontScale(0.5f);
+
+        musicSlider.setValue(
+                app.getPreferences()
+                        .getMusicVolume()
+        );
+
+        soundSlider.setValue(
+                app.getPreferences()
+                        .getSoundVolume()
+        );
+
+        musicCheckbox.setChecked(
+                app.getPreferences()
+                        .isMusicEnabled()
+        );
+
+        musicSlider.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(
+                            ChangeEvent event,
+                            Actor actor
+                    ) {
+                        app.getPreferences()
+                                .setMusicVolume(
+                                        musicSlider.getValue()
+                                );
+                    }
+                }
+        );
+
+        soundSlider.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(
+                            ChangeEvent event,
+                            Actor actor
+                    ) {
+                        app.getPreferences()
+                                .setSoundVolume(
+                                        soundSlider.getValue()
+                                );
+                    }
+                }
+        );
+
+        musicCheckbox.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(
+                            ChangeEvent event,
+                            Actor actor
+                    ) {
+                        app.getPreferences()
+                                .setMusicEnabled(
+                                        musicCheckbox.isChecked()
+                                );
+                    }
+                }
+        );
+
+        backButton.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(
+                            ChangeEvent event,
+                            Actor actor
+                    ) {
+                        app.changeScreen(
+                                CivitasApp.MENU
+                        );
+                    }
+                }
+        );
+
+        panel.add(title)
+                .colspan(2)
+                .padBottom(35);
+
+        panel.row();
+
+        panel.add(musicLabel)
+                .left()
+                .padRight(25);
+
+        panel.add(musicSlider)
+                .width(250)
+                .height(35);
+
+        panel.row()
+                .padTop(20);
+
+        panel.add(musicToggleLabel)
+                .left()
+                .padRight(25);
+
+        panel.add(musicCheckbox)
+                .left();
+
+        panel.row()
+                .padTop(20);
+
+        panel.add(soundLabel)
+                .left()
+                .padRight(25);
+
+        panel.add(soundSlider)
+                .width(250)
+                .height(35);
+
+        panel.row();
+
+        panel.add(backButton)
+                .colspan(2)
+                .width(180)
+                .height(55)
+                .padTop(35);
+
+        root.add(panel)
+                .width(500)
+                .pad(30);
+
+        stage.addActor(root);
+    }
+
+    private Texture criarTextura(Color color) {
+        Pixmap pixmap = new Pixmap(
+                1,
+                1,
+                Pixmap.Format.RGBA8888
+        );
+
+        pixmap.setColor(color);
+        pixmap.fill();
+
+        Texture texture = new Texture(pixmap);
+
+        pixmap.dispose();
+
+        return texture;
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Color color =
+                uiAssets.getBackgroundColor();
 
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        Gdx.gl.glClearColor(
+                color.r,
+                color.g,
+                color.b,
+                color.a
+        );
+
+        Gdx.gl.glClear(
+                GL20.GL_COLOR_BUFFER_BIT
+        );
+
+        stage.act(
+                Math.min(delta, 1f / 30f)
+        );
+
         stage.draw();
     }
 
     @Override
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+    public void resize(
+            int width,
+            int height
+    ) {
+        stage.getViewport().update(
+                width,
+                height,
+                true
+        );
     }
 
     @Override
@@ -128,6 +320,8 @@ public class PreferencesScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-    }
 
+        backgroundTexture.dispose();
+        panelTexture.dispose();
+    }
 }
