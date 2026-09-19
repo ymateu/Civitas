@@ -35,11 +35,12 @@ public class ConfirmExitScreen implements Screen {
         uiAssets = app.getUIAssets();
 
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(stage);
+
         if (stage.getActors().size > 0) {
             return;
         }
@@ -204,13 +205,25 @@ public class ConfirmExitScreen implements Screen {
 
     @Override
     public void hide() {
+        if (Gdx.input.getInputProcessor() == stage) {
+            Gdx.input.setInputProcessor(null);
+        }
     }
 
     @Override
     public void dispose() {
+        if (Gdx.input.getInputProcessor() == stage) {
+            Gdx.input.setInputProcessor(null);
+        }
+
         stage.dispose();
 
-        backgroundTexture.dispose();
-        panelTexture.dispose();
+        if (backgroundTexture != null) {
+            backgroundTexture.dispose();
+        }
+
+        if (panelTexture != null) {
+            panelTexture.dispose();
+        }
     }
 }

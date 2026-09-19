@@ -44,11 +44,12 @@ public class MainScreen implements Screen {
         app = civitasApp;
 
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(stage);
+
         if (stage.getActors().size > 0) {
             return;
         }
@@ -308,14 +309,29 @@ public class MainScreen implements Screen {
 
     @Override
     public void hide() {
+        if (Gdx.input.getInputProcessor() == stage) {
+            Gdx.input.setInputProcessor(null);
+        }
     }
 
     @Override
     public void dispose() {
-        stage.dispose();
-        skin.dispose();
+        if (Gdx.input.getInputProcessor() == stage) {
+            Gdx.input.setInputProcessor(null);
+        }
 
-        backgroundTexture.dispose();
-        profileBackgroundTexture.dispose();
+        stage.dispose();
+
+        if (skin != null) {
+            skin.dispose();
+        }
+
+        if (backgroundTexture != null) {
+            backgroundTexture.dispose();
+        }
+
+        if (profileBackgroundTexture != null) {
+            profileBackgroundTexture.dispose();
+        }
     }
 }
